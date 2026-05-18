@@ -1,5 +1,44 @@
 # AGENTS.md
 
+Este arquivo define as instruções permanentes para agentes de IA que forem trabalhar neste projeto. Ele deve ser lido como um contrato de desenvolvimento: descreve regras obrigatórias, padrões técnicos e comportamentos que não podem ser ignorados durante alterações no código.
+
+Use este arquivo para orientar a IA sobre **como trabalhar** no projeto.
+
+## Papel do agente
+
+- Atuar como apoio técnico no desenvolvimento da aplicação didática de controle de estacionamento.
+- Preservar as regras de negócio já definidas.
+- Manter o projeto compatível com HTML, Tailwind CSS, JavaScript Vanilla, Vite, SweetAlert2 e Supabase.
+- Evitar alterações fora do escopo solicitado.
+- Nunca substituir regras de negócio por dados fixos ou placeholders.
+
+## Regras permanentes de movimentações
+
+- As páginas `pages/movimentacoes.html`, `pages/patio.html` e `pages/historico.html` não podem ficar como placeholders.
+- `pages/movimentacoes.html` deve usar `js/pages/movimentacoes.js`.
+- `pages/patio.html` deve usar `js/pages/patio.js`.
+- `pages/historico.html` deve usar `js/pages/historico.js`.
+- Entrada de veículo deve buscar a placa em `veiculos`, exigir veículo ativo e impedir nova entrada quando já existir movimentação `aberta` para o veículo.
+- Saída de veículo deve exigir uma movimentação `aberta`; ao confirmar, preencher `data_hora_saida`, `valor_cobrado` e alterar `status` para `encerrada`.
+- Todas as ações de entrada e saída devem validar dados no front-end, confirmar com SweetAlert2 e exibir erros reais do Supabase.
+- A consulta do pátio deve listar somente movimentações com `status = 'aberta'`, trazendo placa, marca, modelo, cliente, data/hora de entrada e tipo do veículo.
+- O histórico deve listar movimentações abertas e encerradas, com filtros por placa, período e status.
+- Pátio e histórico devem usar paginação com `.range(inicio, fim)` e `count: 'exact'`.
+- As regras de negócio de movimentações devem ser reforçadas no banco quando possível, especialmente a restrição de apenas uma movimentação aberta por veículo.
+
+## Regras permanentes do dashboard
+
+- `pages/dashboard.html` não pode exibir dados fixos quando houver Supabase disponível.
+- O dashboard deve carregar dados reais de `clientes` e `movimentacoes` via `js/pages/dashboard.js`.
+- Cards de resumo devem ter cores distintas, Heroicons e valores vindos do banco.
+- Indicadores mínimos:
+  - Veículos no pátio: contar `movimentacoes.status = 'aberta'`.
+  - Mensalistas ativos: contar `clientes.ativo = true`.
+  - Entradas hoje: contar `movimentacoes.data_hora_entrada` no intervalo do dia.
+  - Saídas hoje: contar `movimentacoes.data_hora_saida` no intervalo do dia.
+- Movimentações recentes devem listar registros reais, no máximo 5, ordenados por `data_hora_entrada` decrescente.
+- Falhas de carregamento devem usar SweetAlert2 e não podem falhar silenciosamente.
+
 ## Regras permanentes de interface
 
 - Todo texto visível da interface deve usar português do Brasil com acentuação correta.
@@ -9,57 +48,8 @@
 - Em HTML, preferir `data-heroicon="nome-do-icone"` e renderizar pelo módulo `js/ui/icons.js`.
 - Em conteúdo gerado por JavaScript, usar a função `heroicon()` do módulo `js/ui/icons.js`.
 - Evitar símbolos soltos como `☰` ou `◐` quando houver ícone Heroicons equivalente.
-
-## Visão geral do projeto
-
-Este projeto é um aplicação didática de controle de estacionamento.
-
-O sistema terá duas áreas principais:
-
-1. Área do proprietário
-2. Área do cliente mensalista
-
-### Tecnologias utilizadas
-
-**Front-end**
-- HTML
-- Tailwind CSS (dark e light mode)
-- JavaScript Vanilla
-- Vite
-- SweetAlert2
-
-**Back-end**
-- Supabase
-
-## Objetivo do sistema
-
-Permitir o controle de clientes mensalistas e avulsos, incluindo:
-
-- Cadastro de marcas
-- Cadastro de modelos
-- Cadastro de veículos
-- Cadastro de clientes mensalistas
-- Registro de entrada
-- Registro de saída
-- Consulta de veículos no pátio
-- Histórico de movimentações
-
-## Perfis de usuário
-
-### Proprietário
-- Login
-- Dashboard administrativo
-- CRUD de marcas
-- CRUD de modelos
-- CRUD de clientes
-- CRUD de veículos
-- Controle de entrada e saída
-- Consulta ao histórico
-
-### Cliente Mensalista
-- Login
-- Consulta dos próprios veículos
-- Consulta do próprio histórico
+- Todas as mensagens de sucesso, erro, confirmação e alerta devem utilizar SweetAlert2.
+- Não utilizar `alert()`, `confirm()` ou `prompt()` nativos do JavaScript.
 
 ## Regras de desenvolvimento
 
@@ -74,8 +64,7 @@ Permitir o controle de clientes mensalistas e avulsos, incluindo:
 - Utilizar Vite como ferramenta de build e servidor de desenvolvimento.
 - Variáveis de ambiente devem ser acessadas via `import.meta.env`.
 - Não hardcodear URLs e chaves do Supabase.
-- O projeto será publicado no GitHub Pages.
-- Garantir compatibilidade com hospedagem estática.
+- Garantir compatibilidade com hospedagem estática e GitHub Pages.
 - Configurar corretamente a opção `base` do Vite.
 - Evitar dependências que exijam servidor próprio.
 
@@ -83,7 +72,7 @@ Permitir o controle de clientes mensalistas e avulsos, incluindo:
 
 O sistema deve utilizar a autenticação nativa do Supabase.
 
-### Regras
+### Regras obrigatórias
 
 - Implementar tela de login com e-mail e senha.
 - Implementar funcionalidade de logout.
@@ -95,82 +84,52 @@ O sistema deve utilizar a autenticação nativa do Supabase.
 
 ### Funções mínimas
 
-- login(email, senha)
-- logout()
-- getUsuarioAtual()
-- verificarAutenticacao()
-- redirecionarPorPerfil()
-
-## Estrutura sugerida
-
-```text
-/estacionamentos
-├── index.html
-├── login.html
-├── /pages
-├── /cliente
-├── /js
-├── /css
-└── /assets
-```
-
-## Entidades principais
-
-- perfis
-- marcas
-- modelos
-- clientes
-- veiculos
-- movimentacoes
-
-## Regras de negócio
-
-- Um veículo não pode ter duas entradas em aberto.
-- A saída somente pode ocorrer se houver entrada aberta.
-- Clientes mensalistas visualizam apenas seus próprios dados.
-- Veículos avulsos não precisam estar vinculados a clientes.
-- Preferir inativação lógica em vez de exclusão física.
-
-## Regras de Interface
-- Todas as mensagens de sucesso, erro, confirmação e alerta devem utilizar SweetAlert2.
-- Não utilizar `alert()`, `confirm()` ou `prompt()` nativos do JavaScript.
+- `login(email, senha)`
+- `logout()`
+- `getUsuarioAtual()`
+- `verificarAutenticacao()`
+- `redirecionarPorPerfil()`
 
 ## Supabase RLS e GRANT
 
-- Sempre que criar ou alterar tabelas protegidas por RLS no Supabase, tambem configurar os `GRANTs` necessarios para os papeis usados pelo front-end.
-- Para tabelas acessadas apos login, incluir pelo menos `grant usage on schema public to authenticated;` e o `grant` adequado na tabela (`select`, `insert`, `update`, ou `all`).
-- Nao considerar uma policy RLS suficiente por si so: o usuario precisa ter permissao SQL na tabela e a policy decide quais linhas ele pode acessar.
+- Sempre que criar ou alterar tabelas protegidas por RLS no Supabase, também configurar os `GRANTs` necessários para os papéis usados pelo front-end.
+- Para tabelas acessadas após login, incluir pelo menos `grant usage on schema public to authenticated;` e o `grant` adequado na tabela (`select`, `insert`, `update` ou `all`).
+- Não considerar uma policy RLS suficiente por si só: o usuário precisa ter permissão SQL na tabela e a policy decide quais linhas ele pode acessar.
 - Se aparecer erro como `permission denied for table ...`, verificar primeiro se existem `GRANTs` para `authenticated`.
 
-Exemplos de Grants minimos do projeto:
+Exemplos de grants mínimos do projeto:
 
 ```sql
 grant usage on schema public to authenticated;
 grant select on public.perfis to authenticated;
 grant all on public.marcas to authenticated;
+grant all on public.modelos to authenticated;
+grant all on public.clientes to authenticated;
+grant all on public.veiculos to authenticated;
+grant all on public.movimentacoes to authenticated;
 ```
 
 Se novas tabelas forem criadas, adicionar o `grant` correspondente e uma policy RLS adequada antes de usar no front-end.
 
-### Padrao obrigatorio para CRUDs
+## Padrão obrigatório para CRUDs
 
 Todos os cadastros administrativos devem ser implementados como CRUD completo:
 
-- Listar registros com paginacao.
+- Listar registros com paginação.
 - Criar novos registros.
 - Editar registros existentes.
 - Inativar registros em vez de excluir fisicamente, quando a entidade possuir campo `ativo`.
 - Reativar registros inativos quando fizer sentido para o cadastro.
-- Validar campos obrigatorios antes de enviar ao Supabase.
-- Exibir mensagens de sucesso, erro, confirmacao e alerta com SweetAlert2.
-- Mostrar erros reais retornados pelo Supabase ao usuario, sem falhar silenciosamente.
-- Usar `async/await` e `try/catch` em todas as operacoes.
-- Atualizar a tabela/listagem apos criar, editar, inativar ou reativar.
+- Validar campos obrigatórios antes de enviar ao Supabase.
+- Exibir mensagens de sucesso, erro, confirmação e alerta com SweetAlert2.
+- Mostrar erros reais retornados pelo Supabase ao usuário, sem falhar silenciosamente.
+- Usar `async/await` e `try/catch` em todas as operações.
+- Atualizar a tabela/listagem após criar, editar, inativar ou reativar.
 
-### Paginacao dos cadastros
+## Paginação dos cadastros
 
-- Toda listagem de cadastro deve usar paginacao no Supabase com `.range(inicio, fim)`.
-- Usar `select(..., { count: 'exact' })` quando precisar calcular total de paginas.
-- Exibir controles de pagina anterior/proxima e informacao da pagina atual.
-- Definir um tamanho de pagina padrao, preferencialmente 10 registros por pagina.
-- Manter busca/filtros integrados com a paginacao quando existirem.
+- Toda listagem de cadastro deve usar paginação no Supabase com `.range(inicio, fim)`.
+- Usar `select(..., { count: 'exact' })` quando precisar calcular total de páginas.
+- Exibir controles de página anterior/próxima e informação da página atual.
+- Definir um tamanho de página padrão, preferencialmente 10 registros por página.
+- Manter busca/filtros integrados com a paginação quando existirem.
