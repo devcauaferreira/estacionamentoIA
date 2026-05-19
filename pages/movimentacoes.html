@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movimentações | Estacionamentos</title>
+    <script type="module" crossorigin src="../assets/movimentacoes-CwmfmkQh.js"></script>
+    <link rel="modulepreload" crossorigin href="../assets/auth-C9HJbkKe.js">
+    <link rel="modulepreload" crossorigin href="../assets/styles-CVB5X7Ga.js">
+    <link rel="modulepreload" crossorigin href="../assets/layout-DF1R6W9q.js">
+    <link rel="stylesheet" crossorigin href="../assets/styles-DS49_3Uh.css">
+  </head>
+  <body>
+    <div class="app-shell lg:flex">
+      <aside class="border-b border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800 lg:min-h-screen lg:w-64 lg:border-b-0 lg:border-r">
+        <div class="mb-6 flex items-center gap-3"><img class="h-10 w-auto" src="../assets/logo-DIVXN9jY.png" alt="Logotipo do sistema" /><strong>Estacionamentos</strong></div>
+        <nav class="space-y-1" data-sidebar></nav>
+      </aside>
+      <div class="min-w-0 flex-1">
+        <header class="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-4 dark:border-slate-700 dark:bg-slate-800">
+          <div><p class="text-sm font-semibold" data-user-name>Usuário</p><p class="text-xs text-slate-500 dark:text-slate-300" data-user-role>Perfil</p></div>
+          <div class="flex gap-2"><button class="btn-secondary" type="button" data-theme-toggle><span data-heroicon="moon"></span></button><button class="btn-danger" type="button" data-logout><span data-heroicon="arrow-left-on-rectangle"></span>Sair</button></div>
+        </header>
+        <main class="space-y-6 p-6">
+          <div>
+            <h1 class="text-2xl font-bold">Movimentações</h1>
+            <p class="text-sm text-slate-600 dark:text-slate-300">Registre entradas e saídas de veículos cadastrados.</p>
+          </div>
+          <section class="grid gap-6 xl:grid-cols-2">
+            <form class="page-card space-y-4" data-form-entrada>
+              <h2 class="text-lg font-bold">Entrada de veículo</h2>
+              <div>
+                <label class="label-field" for="placa-entrada">Placa</label>
+                <input class="input-field uppercase" id="placa-entrada" name="placa" placeholder="ABC1D23" required />
+              </div>
+              <div data-resultado-entrada></div>
+              <button class="btn-primary" type="submit"><span data-heroicon="plus"></span>Registrar entrada</button>
+            </form>
+            <form class="page-card space-y-4" data-form-saida>
+              <h2 class="text-lg font-bold">Saída de veículo</h2>
+              <div>
+                <label class="label-field" for="placa-saida">Placa</label>
+                <input class="input-field uppercase" id="placa-saida" name="placa" placeholder="ABC1D23" required />
+              </div>
+              <div>
+                <label class="label-field" for="valor-cobrado">Valor cobrado</label>
+                <input class="input-field" id="valor-cobrado" name="valor_cobrado" type="number" min="0" step="0.01" required />
+              </div>
+              <div data-resultado-saida></div>
+              <button class="btn-primary" type="submit"><span data-heroicon="arrow-left-on-rectangle"></span>Registrar saída</button>
+            </form>
+          </section>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Histórico | Estacionamentos</title>
+    <script type="module" crossorigin src="../assets/historico-BBPxAJf6.js"></script>
+    <link rel="modulepreload" crossorigin href="../assets/auth-C9HJbkKe.js">
+    <link rel="modulepreload" crossorigin href="../assets/styles-CVB5X7Ga.js">
+    <link rel="modulepreload" crossorigin href="../assets/layout-DF1R6W9q.js">
+    <link rel="stylesheet" crossorigin href="../assets/styles-DS49_3Uh.css">
+  </head>
+  <body>
+    <div class="app-shell lg:flex">
+      <aside class="border-b border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800 lg:min-h-screen lg:w-64 lg:border-b-0 lg:border-r">
+        <div class="mb-6 flex items-center gap-3"><img class="h-10 w-auto" src="../assets/logo-DIVXN9jY.png" alt="Logotipo do sistema" /><strong>Estacionamentos</strong></div>
+        <nav class="space-y-1" data-sidebar></nav>
+      </aside>
+      <div class="min-w-0 flex-1">
+        <header class="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-4 dark:border-slate-700 dark:bg-slate-800">
+          <div><p class="text-sm font-semibold" data-user-name>Usuário</p><p class="text-xs text-slate-500 dark:text-slate-300" data-user-role>Perfil</p></div>
+          <div class="flex gap-2"><button class="btn-secondary" type="button" data-theme-toggle><span data-heroicon="moon"></span></button><button class="btn-danger" type="button" data-logout><span data-heroicon="arrow-left-on-rectangle"></span>Sair</button></div>
+        </header>
+        <main class="space-y-6 p-6">
+          <div>
+            <h1 class="text-2xl font-bold">Histórico</h1>
+            <p class="text-sm text-slate-600 dark:text-slate-300">Consulte movimentações abertas e encerradas.</p>
+          </div>
+          <section class="page-card">
+            <form class="mb-6 grid gap-4 md:grid-cols-5" data-filtros-historico>
+              <div>
+                <label class="label-field" for="filtro-placa">Placa</label>
+                <input class="input-field uppercase" id="filtro-placa" name="placa" placeholder="ABC1D23" />
+              </div>
+              <div>
+                <label class="label-field" for="filtro-inicio">Início</label>
+                <input class="input-field" id="filtro-inicio" name="inicio" type="date" />
+              </div>
+              <div>
+                <label class="label-field" for="filtro-fim">Fim</label>
+                <input class="input-field" id="filtro-fim" name="fim" type="date" />
+              </div>
+              <div>
+                <label class="label-field" for="filtro-status">Status</label>
+                <select class="input-field" id="filtro-status" name="status">
+                  <option value="">Todos</option>
+                  <option value="aberta">Aberta</option>
+                  <option value="encerrada">Encerrada</option>
+                </select>
+              </div>
+              <div class="flex items-end gap-2">
+                <button class="btn-primary" type="submit"><span data-heroicon="magnifying-glass"></span>Filtrar</button>
+                <button class="btn-secondary" type="reset">Limpar</button>
+              </div>
+            </form>
+            <div class="overflow-x-auto">
+              <table class="w-full min-w-[920px]">
+                <thead class="table-header">
+                  <tr>
+                    <th class="px-4 py-3">Placa</th>
+                    <th class="px-4 py-3">Veículo</th>
+                    <th class="px-4 py-3">Cliente</th>
+                    <th class="px-4 py-3">Entrada</th>
+                    <th class="px-4 py-3">Saída</th>
+                    <th class="px-4 py-3">Valor</th>
+                    <th class="px-4 py-3">Status</th>
+                  </tr>
+                </thead>
+                <tbody data-historico-lista></tbody>
+              </table>
+            </div>
+            <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+              <span class="text-sm text-slate-600 dark:text-slate-300" data-pagina-info>Página 1 de 1</span>
+              <div class="flex gap-2">
+                <button class="btn-secondary" type="button" data-pagina-anterior>Anterior</button>
+                <button class="btn-secondary" type="button" data-pagina-proxima>Próxima</button>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
