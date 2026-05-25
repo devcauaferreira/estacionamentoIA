@@ -7,6 +7,8 @@ const linksProprietario = [
   ['Movimentações', 'pages/movimentacoes.html', 'truck'],
   ['Pátio', 'pages/patio.html', 'home'],
   ['Histórico', 'pages/historico.html', 'clock'],
+  ['Usuários', 'pages/usuarios.html', 'user-group'],
+  ['Veículos', 'pages/veiculos.html', 'truck'],
 ];
 
 const linksCliente = [

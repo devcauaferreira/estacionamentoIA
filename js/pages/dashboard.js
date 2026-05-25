@@ -44,12 +44,14 @@ async function carregarDashboard() {
     contar('movimentacoes', (q) => q.gte('data_hora_saida', inicio).lte('data_hora_saida', fim)),
   ]);
 
-  cards.innerHTML = [
-    renderCard('Veículos no pátio', patio, 'truck', 'border-purple-200 bg-purple-600 text-white'),
-    renderCard('Mensalistas ativos', mensalistas, 'user-group', 'border-emerald-200 bg-emerald-600 text-white'),
-    renderCard('Entradas hoje', entradasHoje, 'calendar-days', 'border-amber-200 bg-amber-500 text-white'),
-    renderCard('Saídas hoje', saidasHoje, 'arrow-left-on-rectangle', 'border-sky-200 bg-sky-600 text-white'),
-  ].join('');
+  if (cards) {
+    cards.innerHTML = [
+      renderCard('Veículos no pátio', patio, 'truck', 'border-purple-200 bg-purple-600 text-white'),
+      renderCard('Mensalistas ativos', mensalistas, 'user-group', 'border-emerald-200 bg-emerald-600 text-white'),
+      renderCard('Entradas hoje', entradasHoje, 'calendar-days', 'border-amber-200 bg-amber-500 text-white'),
+      renderCard('Saídas hoje', saidasHoje, 'arrow-left-on-rectangle', 'border-sky-200 bg-sky-600 text-white'),
+    ].join('');
+  }
 
   const { data, error } = await supabase
     .from('movimentacoes')
@@ -59,15 +61,17 @@ async function carregarDashboard() {
 
   if (error) throw error;
 
-  recentes.innerHTML = data.length
-    ? data.map((item) => `<tr class="hover:bg-slate-50 dark:hover:bg-slate-900">
-      <td class="table-cell font-semibold">${item.veiculos?.placa || '-'}</td>
-      <td class="table-cell">${item.veiculos?.marcas?.nome || '-'} ${item.veiculos?.modelos?.nome || ''}</td>
-      <td class="table-cell">${item.veiculos?.clientes?.nome || 'Avulso'}</td>
-      <td class="table-cell">${formatarDataHora(item.data_hora_entrada)}</td>
-      <td class="table-cell"><span class="rounded-full px-2 py-1 text-xs font-semibold ${item.status === 'aberta' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-700'}">${item.status === 'aberta' ? 'Aberta' : 'Encerrada'}</span></td>
-    </tr>`).join('')
-    : '<tr><td class="table-cell text-center text-slate-500" colspan="5">Não há movimentações recentes.</td></tr>';
+  if (recentes) {
+    recentes.innerHTML = data.length
+      ? data.map((item) => `<tr class="hover:bg-slate-50 dark:hover:bg-slate-900">
+        <td class="table-cell font-semibold">${item.veiculos?.placa || '-'}</td>
+        <td class="table-cell">${item.veiculos?.marcas?.nome || '-'} ${item.veiculos?.modelos?.nome || ''}</td>
+        <td class="table-cell">${item.veiculos?.clientes?.nome || 'Avulso'}</td>
+        <td class="table-cell">${formatarDataHora(item.data_hora_entrada)}</td>
+        <td class="table-cell"><span class="rounded-full px-2 py-1 text-xs font-semibold ${item.status === 'aberta' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-700'}">${item.status === 'aberta' ? 'Aberta' : 'Encerrada'}</span></td>
+      </tr>`).join('')
+      : '<tr><td class="table-cell text-center text-slate-500" colspan="5">Não há movimentações recentes.</td></tr>';
+  }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
